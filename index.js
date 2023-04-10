@@ -1,10 +1,18 @@
 const express = require("express");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const app = express();
 require("dotenv").config();
 
-const URL = process.env.MONGO_DB;
+const AuthorRouter = require("./router/AuthorRouter");
 
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded());
+
+//ENRUTADO
+app.use("/api", AuthorRouter);
+
+// conexión BBDD
+const URL = process.env.MONGO_DB;
 mongoose
   .connect(URL, {})
   .then(() => {
