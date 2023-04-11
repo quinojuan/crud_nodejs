@@ -40,4 +40,19 @@ AuthorRouter.post("/author", async (req, res) => {
   }
 });
 
+AuthorRouter.delete("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Author.findByIdAndDelete(id);
+    res.status(200).send({
+      success: true,
+      message: "Author is deleted!",
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
 module.exports = AuthorRouter;
