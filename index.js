@@ -4,12 +4,14 @@ const app = express();
 require("dotenv").config();
 
 const AuthorRouter = require("./router/AuthorRouter");
+const BookRouter = require("./router/BookRouter");
 
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded());
 
 //ENRUTADO
 app.use("/api", AuthorRouter);
+app.use("/api", BookRouter)
 
 // conexión BBDD
 const URL = process.env.MONGO_DB;

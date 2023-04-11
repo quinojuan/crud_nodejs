@@ -55,4 +55,24 @@ AuthorRouter.delete("/delete/:id", async (req, res) => {
     });
   }
 });
+
+AuthorRouter.put("/update/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { age } = req.body;
+
+    await Author.findByIdAndUpdate(id, { age });
+    res.status(200).send({
+      success: true,
+      message: "Author is modified!",
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+
 module.exports = AuthorRouter;
