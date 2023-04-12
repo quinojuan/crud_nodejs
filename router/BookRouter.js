@@ -33,4 +33,33 @@ BookRouter.post("/book", async (req, res) => {
   }
 });
 
-module.exports = BookRouter
+// DEVOLVER UN LIBRO
+
+BookRouter.get("/find/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    let book = await Book.findById(id).populate({ // con esto le estoy diciendo que busque en el documento author y luego que extraiga la propiedad name.
+      path: "author",
+      select: "name",
+    });
+
+    if (!book) {
+      return res.status(404).send({
+        success: false,
+        message: "Book not found!",
+        book,
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: "Book found it!",
+      book,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      message: "Something went wrong!",
+    });
+  }
+});
+module.exports = BookRouter;
